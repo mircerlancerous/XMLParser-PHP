@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2018 OffTheBricks - https://github.com/mircerlancerous/XMLParser-PHP
+Copyright 2019 OffTheBricks - https://github.com/mircerlancerous/XMLParser-PHP
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
