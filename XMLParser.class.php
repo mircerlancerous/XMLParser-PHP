@@ -31,6 +31,19 @@ class XMLParser{
 		return $this->ParseXML();
 	}
 	
+	public function ParseObject(){
+		$this->pointer = 0;
+		$nodelist = $this->ParseXML();
+		$obj = new \stdClass();
+		if($nodelist){
+			foreach($nodelist as $node){
+				$propname = $node->tagName;
+				$obj->$propname = $this->NodeToObject($node);
+			}
+		}
+		return $obj;
+	}
+	
 	private function RemoveXMLHeader(){
 		if(substr($this->xml,0,2) == "<?"){
 			$pos = strpos($this->xml,">");
@@ -117,6 +130,19 @@ class XMLParser{
 			$node->attributes->$key = str_replace('"',"",$attr[1]);
 		}
 		return $node;
+	}
+	
+	private function NodeToObject($node){
+		if(!sizeof(get_object_vars($node->attributes)) && !sizeof($node->children)){
+			return $node->content;
+		}
+		$obj = $node->attributes;
+		$obj->content = $node->content;
+		foreach($node->children as $childnode){
+			$propname = $childnode->tagName;
+			$obj->$propname = $this->NodeToObject($childnode);
+		}
+		return $obj;
 	}
 }
 
